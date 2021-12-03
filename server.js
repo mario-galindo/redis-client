@@ -4,8 +4,6 @@ const cors = require("cors");
 const Redis = require("redis");
 
 const redisClient = Redis.createClient();
-const DEFAULT_EXPIRATION = 3600;
-
 const app = express();
 app.use(cors());
 
@@ -16,7 +14,8 @@ app.get("/photos", async (req, res) => {
     { params: { albumId } }
   );
 
-  redisClient.setEx("photos", DEFAULT_EXPIRATION, JSON.stringify(data));
+  await redisClient.connect();
+  redisClient.set("lastname", "Jorge");
 
   res.json(data);
 });
