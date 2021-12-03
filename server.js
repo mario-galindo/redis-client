@@ -10,11 +10,11 @@ const app = express();
 app.use(cors());
 
 app.get("/photos", async (req, res) => {
-  const photosCache = await redisClient.get("photos");
+  const photos = await redisClient.get("photos");
 
   if (photosCache != null) {
     console.log("Cache hit!");
-    return res.json(JSON.parse(photosCache));
+    return res.json(JSON.parse(photos));
   } else {
     console.log("Cache Miss");
 
