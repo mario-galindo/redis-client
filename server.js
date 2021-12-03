@@ -14,6 +14,15 @@ app.get("/photos", async (req, res) => {
   res.json(data);
 });
 
+app.get("/photos:id", async (req, res) => {
+  const albumId = req.query.albumId;
+  const { data } = await axios.get(
+    `https://jsonplaceholder.typicode.com/photos/${req.params.id}`,
+    { params: { albumId } }
+  );
+  res.json(data);
+});
+
 app.listen(3000, () => {
   console.log("listening at http://localhost:3000");
 });
