@@ -16,7 +16,7 @@ app.get("/photos", async (req, res) => {
     { params: { albumId } }
   );
 
-  redisClient.setEx("photos", DEFAULT_EXPIRATION, data);
+  redisClient.setEx("photos", DEFAULT_EXPIRATION, JSON.stringify(data));
 
   res.json(data);
 });
