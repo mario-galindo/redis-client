@@ -10,7 +10,6 @@ const app = express();
 app.use(cors());
 
 app.get("/photos", async (req, res) => {
-
   const photosCache = await redisClient.get("photos");
 
   if (photosCache != null) {
@@ -26,8 +25,8 @@ app.get("/photos", async (req, res) => {
     );
 
     redisClient.setEx("photos", 3600, JSON.stringify(data));
+    res.json(data);
   }
-  res.json(data);
 });
 
 app.get("/photos/:id", async (req, res) => {
