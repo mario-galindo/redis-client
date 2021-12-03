@@ -15,7 +15,7 @@ app.get("/photos", async (req, res) => {
   );
 
   await redisClient.connect();
-  redisClient.set("lastname", "Jorge");
+  redisClient.setEx("photos", 3600, JSON.stringify(data));
 
   res.json(data);
 });
