@@ -14,11 +14,9 @@ app.get("/photos", async (req, res) => {
   res.json(data);
 });
 
-app.get("/photos:id", async (req, res) => {
-  const albumId = req.query.albumId;
+app.get("/photos/:id", async (req, res) => {
   const { data } = await axios.get(
-    `https://jsonplaceholder.typicode.com/photos/${req.params.id}`,
-    { params: { albumId } }
+    `https://jsonplaceholder.typicode.com/photos/${req.params.id}`
   );
   res.json(data);
 });
