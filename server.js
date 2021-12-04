@@ -12,7 +12,7 @@ app.use(cors());
 app.get("/photos", async (req, res) => {
   const photos = await redisClient.get("photos");
 
-  if (photosCache != null) {
+  if (photos != null) {
     console.log("Cache hit!");
     return res.json(JSON.parse(photos));
   } else {
