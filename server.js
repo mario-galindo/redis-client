@@ -13,12 +13,8 @@ app.get("/photos", async (req, res) => {
   const photos = await redisClient.get("photos");
 
   if (photos != null) {
-    console.log("Cache hit!");
     return res.json(JSON.parse(photos));
   } else {
-    console.log("Cache Miss");
-
-    const albumId = req.query.albumId;
     const { data } = await axios.get(
       "https://jsonplaceholder.typicode.com/photos",
       { params: { albumId } }
