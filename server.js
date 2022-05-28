@@ -14,11 +14,12 @@ app.get("/photos", async (req, res) => {
   const photos = await redisClient.get("photos");
 
   if (photos != null) {
+    console.log("Retrieve data from Redis Cache")
     return res.json(JSON.parse(photos));
   } else {
+    console.log("Retrieve data from external API")
     const { data } = await axios.get(
-      "https://jsonplaceholder.typicode.com/photos",
-      { params: { albumId } }
+      "https://jsonplaceholder.typicode.com/photos?_start=0&_limit=3" 
     );
 
     redisClient.setEx("photos", DEFAULT_EXPIRATION, JSON.stringify(data));
@@ -34,7 +35,9 @@ app.get("/photos/:id", async (req, res) => {
   } else {
     const { data } = await axios.get(
       `https://jsonplaceholder.typicode.com/photos/${req.params.id}`
-    );
+    ).then(data => {
+      console.log(data)
+    });
 
     redisClient.setEx(
       `photo:${req.params.id}`,
