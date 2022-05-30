@@ -2,6 +2,7 @@ const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
 const Redis = require("redis");
+const { REDIS_PORT, PORT } = require("./config");
 
 const redisClient = Redis.createClient();
 const DEFAULT_EXPIRATION = 3600;
@@ -14,12 +15,12 @@ app.get("/photos", async (req, res) => {
   const photos = await redisClient.get("photos");
 
   if (photos != null) {
-    console.log("Retrieve data from Redis Cache")
+    console.log("Retrieve data from Redis Cache");
     return res.json(JSON.parse(photos));
   } else {
-    console.log("Retrieve data from external API")
+    console.log("Retrieve data from external API");
     const { data } = await axios.get(
-      "https://jsonplaceholder.typicode.com/photos?_start=0&_limit=3" 
+      "https://jsonplaceholder.typicode.com/photos?_start=0&_limit=3"
     );
 
     redisClient.setEx("photos", DEFAULT_EXPIRATION, JSON.stringify(data));
@@ -33,11 +34,11 @@ app.get("/photos/:id", async (req, res) => {
   if (photo != null) {
     return res.json(JSON.parse(photo));
   } else {
-    const { data } = await axios.get(
-      `https://jsonplaceholder.typicode.com/photos/${req.params.id}`
-    ).then(data => {
-      console.log(data)
-    });
+    const { data } = await axios
+      .get(`https://jsonplaceholder.typicode.com/photos/${req.params.id}`)
+      .then((data) => {
+        console.log(data);
+      });
 
     redisClient.setEx(
       `photo:${req.params.id}`,
@@ -48,6 +49,6 @@ app.get("/photos/:id", async (req, res) => {
   }
 });
 
-app.listen(3000, () => {
-  console.log("listening at http://localhost:3000");
+app.listen(PORT, () => {
+  console.log(`listening at http://localhost:${PORT}`);
 });
