@@ -58,7 +58,7 @@ app.get("/photos/:id", async (req, res) => {
 });
 
 app.use(
-  '/api-docs',
+  '/docs',
   swaggerUi.serve, 
   swaggerUi.setup(swaggerDocument)
 );
