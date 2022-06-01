@@ -9,11 +9,11 @@ const {
   APP_PORT,
 } = require("./config");
 
-const redisClient = Redis.createClient({
-  host: REDIS_HOST,
-  port: REDIS_PORT,
-  password: REDIS_PASSWORD,
+const redisClient = Redis.createClient(REDIS_PORT, REDIS_HOST, {
+  auth_pass: REDIS_PASSWORD,
+  tls: { servername: REDIS_HOST },
 });
+
 const DEFAULT_EXPIRATION = 3600;
 redisClient.connect();
 
