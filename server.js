@@ -2,19 +2,18 @@ const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
 const Redis = require("redis");
+const swaggerUi = require("swagger-ui-express");
+swaggerDocument = require("./swagger.json");
+
 const {
   REDIS_PORT,
   REDIS_HOST,
   REDIS_PASSWORD,
   APP_PORT,
+  DEFAULT_EXPIRATION
 } = require("./config");
 
-const redisClient = Redis.createClient(REDIS_PORT, REDIS_HOST, {
-  auth_pass: REDIS_PASSWORD,
-  tls: { servername: REDIS_HOST },
-});
-
-const DEFAULT_EXPIRATION = 3600;
+const redisClient = Redis.createClient(REDIS_PORT, REDIS_HOST);
 redisClient.connect();
 
 const app = express();
@@ -57,6 +56,12 @@ app.get("/photos/:id", async (req, res) => {
     res.json(data);
   }
 });
+
+app.use(
+  '/api-docs',
+  swaggerUi.serve, 
+  swaggerUi.setup(swaggerDocument)
+);
 
 app.listen(APP_PORT, () => {
   console.log(`listening at http://localhost:${APP_PORT}`);
