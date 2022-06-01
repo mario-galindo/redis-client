@@ -2,9 +2,18 @@ const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
 const Redis = require("redis");
-const { REDIS_PORT, PORT } = require("./config");
+const {
+  REDIS_PORT,
+  REDIS_HOST,
+  REDIS_PASSWORD,
+  APP_PORT,
+} = require("./config");
 
-const redisClient = Redis.createClient();
+const redisClient = Redis.createClient({
+  host: REDIS_HOST,
+  port: REDIS_PORT,
+  password: REDIS_PASSWORD,
+});
 const DEFAULT_EXPIRATION = 3600;
 redisClient.connect();
 
@@ -49,6 +58,6 @@ app.get("/photos/:id", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`listening at http://localhost:${PORT}`);
+app.listen(APP_PORT, () => {
+  console.log(`listening at http://localhost:${APP_PORT}`);
 });

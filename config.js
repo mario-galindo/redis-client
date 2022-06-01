@@ -3,5 +3,7 @@ dotenv.config();
 
 module.exports = {
   REDIS_PORT: process.env.REDIS_PORT,
-  PORT: process.env.PORT,
+  REDIS_HOST: process.env.REDIS_HOST,
+  REDIS_PASSWORD: process.env.REDIS_PASSWORD,
+  APP_PORT: process.env.APP_PORT,
 };
