@@ -1,0 +1,61 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "My User Project CRUD",
+    "description": "My User Project Application API",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+
+  "paths": {
+    "/photos": {
+      "get": {
+        "tags": ["Photos"],
+        "summary": "Get all users photos",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Photos"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Photo": {
+      "required": ["albumId", "id"],
+      "properties": {
+        "albumId": {
+          "type": "integer"
+        },
+        "id": {
+          "type": "integer",
+          "uniqueItems": true
+        },
+        "title": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "thumbnailUrl": {
+          "type": "string"
+        }
+      }
+    },
+    "Photos": {
+      "type": "array",
+      "$ref": "#/definitions/Photo"
+    }
+  }
+}
